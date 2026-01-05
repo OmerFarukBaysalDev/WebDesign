@@ -942,7 +942,7 @@
         });
     }
 
-    function checkAnswer(btn, selected, correct, explanation) {
+    checkAnswer(btn, selected, correct, explanation) {
         // Cevabı kaydet
         answers[currentQIndex] = selected;
 
@@ -955,16 +955,20 @@
             score++;
             els.scoreVal.innerText = score;
         } else {
-            btn.classList.add('selected-wrong');
+            btn.classList.add('selected-wrong'); // Yanlış seçileni kırmızı yap
             wrong++;
             els.wrongVal.innerText = wrong;
-            // Doğru cevabı gösters
+            
+            // Doğru cevabı bul ve yeşil yap (DÜZELTİLEN KISIM)
             allBtns.forEach(b => {
-                if(b.dataset.option =sv== correct) b.classList.add('correct');
+                // dataset.option değeri string olduğu için === ile kontrol ediyoruz
+                if(b.dataset.option === correct) {
+                    b.classList.add('correct');
+                }
             });
         }
 
-        // Açıklama göster ve butonu aç
+        // Açıklama göster ve "Sonraki" butonunu aktif et
         els.expText.innerText = explanation;
         els.explanation.style.display = 'block';
         els.nextBtn.disabled = false;
