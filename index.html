@@ -39,7 +39,6 @@
             min-height: 650px;
         }
 
-        /* Header */
         .header {
             background: #2c3e50;
             color: white;
@@ -73,7 +72,6 @@
         .stat-correct { color: #2ecc71; }
         .stat-wrong { color: #e74c3c; }
 
-        /* Content */
         .content { padding: 30px; flex: 1; display: flex; flex-direction: column; }
 
         .progress-bar {
@@ -139,7 +137,6 @@
         .code-block .comment { color: #6a9955; }
         .code-block .number { color: #b5cea8; }
 
-        /* Options */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -188,7 +185,6 @@
         .option-btn.correct .btn-letter { background: var(--success); color: white; }
         .option-btn.wrong .btn-letter { background: var(--accent); color: white; }
 
-        /* Explanation */
         .explanation {
             margin-top: 20px;
             padding: 15px;
@@ -202,7 +198,6 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Footer */
         .footer {
             padding: 20px 30px;
             border-top: 1px solid #eee;
@@ -232,7 +227,6 @@
         
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* Results */
         #result-screen { display: none; text-align: center; padding: 50px; }
         .score-circle {
             width: 180px;
@@ -877,7 +871,6 @@
     let wrong = 0;
     let answers = new Array(questions.length).fill(null);
 
-    // Elementleri Seç
     const els = {
         quizScreen: document.getElementById('quiz-screen'),
         resultScreen: document.getElementById('result-screen'),
@@ -898,17 +891,14 @@
         const q = questions[currentQIndex];
         const savedAnswer = answers[currentQIndex];
         
-        // UI Güncelle
         els.topic.innerText = q.t;
         els.question.innerHTML = q.q;
         els.qVal.innerText = `${currentQIndex + 1}/${questions.length}`;
         els.progress.style.width = `${((currentQIndex) / questions.length) * 100}%`;
         
-        // Buton durumları
         els.prevBtn.disabled = (currentQIndex === 0);
         els.nextBtn.disabled = (savedAnswer === null);
         
-        // Açıklama alanı
         if (savedAnswer) {
             els.expText.innerText = q.exp;
             els.explanation.style.display = 'block';
@@ -916,7 +906,6 @@
             els.explanation.style.display = 'none';
         }
         
-        // Seçenekleri Oluştur
         els.options.innerHTML = '';
         
         q.o.forEach((opt, index) => {
@@ -925,7 +914,6 @@
             btn.innerHTML = `<div class="btn-letter">${String.fromCharCode(65 + index)}</div> ${opt}`;
             btn.dataset.option = opt;
 
-            // Eğer soru daha önce cevaplandıysa durumunu yansıt
             if (savedAnswer) {
                 btn.style.pointerEvents = 'none';
                 if (opt === q.a) {
@@ -935,7 +923,6 @@
                     btn.classList.add('selected-wrong');
                 }
             } else {
-                // Cevaplanmamışsa tıklama olayını ekle
                 btn.onclick = () => checkAnswer(btn, opt, q.a, q.exp);
             }
             
@@ -944,10 +931,8 @@
     }
 
     function checkAnswer(btn, selected, correct, explanation) {
-        // Cevabı kaydet
         answers[currentQIndex] = selected;
 
-        // Tüm butonları kilitle
         const allBtns = document.querySelectorAll('.option-btn');
         allBtns.forEach(b => b.style.pointerEvents = 'none');
 
@@ -956,11 +941,10 @@
             score++;
             els.scoreVal.innerText = score;
         } else {
-            btn.classList.add('selected-wrong'); // Yanlış seçileni kırmızı yap
+            btn.classList.add('selected-wrong');
             wrong++;
             els.wrongVal.innerText = wrong;
             
-            // Doğru cevabı bul ve yeşil yap
             allBtns.forEach(b => {
                 if(b.dataset.option === correct) {
                     b.classList.add('correct');
@@ -968,7 +952,6 @@
             });
         }
 
-        // Açıklama göster ve "Sonraki" butonunu aktif et
         els.expText.innerText = explanation;
         els.explanation.style.display = 'block';
         els.nextBtn.disabled = false;
@@ -1002,7 +985,6 @@
         document.getElementById('final-circle').style.background = `conic-gradient(#27ae60 ${percent}%, #eee 0%)`;
     }
 
-    // Başlat
     loadQuestion();
 </script>
 </body>
